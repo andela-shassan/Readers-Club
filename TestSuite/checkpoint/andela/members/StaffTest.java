@@ -9,20 +9,20 @@ import static org.junit.Assert.*;
  */
 public class StaffTest {
   Staff staff1 = new Staff();
-  Book book1 = new Book();
+  Book book3 = new Book();
 
 
   @Test
   public void testBorrowBook() throws Exception {
-    book1.setNumberOfCopies(2);
-    staff1.borrowBook(book1);
-    assertEquals(book1.getNumberOfCopies(), 1);
+    book3.setNumberOfCopies(2);
+    staff1.borrowBook(book3);
+    assertEquals(book3.getNumberOfCopies(), 1);
   }
 
   @Test
   public void testReturnBook() throws Exception {
-    book1.setNumberOfCopies(1);
-    staff1.returnBook(book1);
-    assertEquals(book1.getNumberOfCopies(), 2);
+    book3.setNumberOfCopies(1);
+    staff1.returnBook(book3);
+    assertEquals(book3.getNumberOfCopies(), 2);
   }
 }

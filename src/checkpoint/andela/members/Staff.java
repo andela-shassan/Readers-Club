@@ -6,7 +6,9 @@ import checkpoint.andela.main.*;
  * Created by Semiu on 26/11/2015.
  * This class inherit Member class
  * It also declare two additional properties:
- * Staff-number and net-pay
+ * Staff-number and net-pay.
+ * Members of this class are given precedence over
+ * members of Student class
  */
 public class Staff extends Member {
   private int staffNumber;
