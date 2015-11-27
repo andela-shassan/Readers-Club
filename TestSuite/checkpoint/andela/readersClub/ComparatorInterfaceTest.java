@@ -7,7 +7,10 @@ import static org.junit.Assert.assertEquals;
 
 /**
  * Created by Semiu on 26/11/2015.
+ * This test the implementation of the comparator interface.
+ * It ensure that the interface returns what it suppose to return.
  */
+
 public class ComparatorInterfaceTest {
   Staff staff0 = new Staff();
   Staff staff1 = new Staff();
@@ -59,24 +62,5 @@ public class ComparatorInterfaceTest {
     assertEquals(test.compare(staff0, staff1), 0);
     assertEquals(test.compare(student2, student3), 0);
   }
-
-
-  // chidi test
-  @Test
-   public void negativeIntShouldbeReturned() {
-        try {
-          Student student8 = new Student();
-          Thread.sleep(500);
-          Student student9 = new Student();
-            Staff staff5 = new Staff("Chidinma Ng", 'M', "24th January 1998", "semiu@andela", "08162082773", 34, 76.98);
-           //Thread.sleep(1000);
-           Staff staff6 = new Staff("Chidinma Ng", 'M', "24th January 1998", "semiu@andela", "08162082773", 34, 76.998);
-
-            ComparatorInterfaceTest membercomparator = new ComparatorInterfaceTest();
-           assertEquals(test.compare(student8, student9), -1);
-          } catch (Exception ex) {
-            ex.printStackTrace();
-          }
-    }
 
 }

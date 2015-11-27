@@ -7,6 +7,9 @@ import java.util.Comparator;
 
 /**
  * Created by Semiu on 26/11/2015.
+ * This is a simple comparator interface that will be use to sort the queue.
+ * It take two members as its argument and compare their status and rank.
+ * It return -1, 0 or 1 accordingly.
  */
 public class ComparatorInterface implements Comparator<Member> {
 
