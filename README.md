@@ -34,6 +34,18 @@ This class implements comparator used by the ReadersClubManagement Class to arra
 It compare any member trying to borrow a particular book with those that are already on the queue for that book  
 and place them on the queue based on their status and rank.  
 
+### ReadersClubManagement Class
+This is basically the masternclass that controls the whole activities of the club.
+* It register member to the club.
+* Manages the list of members.
+* Add books to the book list.
+* Manages the list of books.
+* Lending books to members.
+Whenever more than one member request for a particular book at the same time,  
+this class place the members on a queue based on their rank and status.  
+It make use of ComparatorInterface class to sort the queue accordingly.
+
+
 #### TestSuite  
 This package contain the JunitTest classes that confirms the functionality of this application.  
 Note: Setters and Getters were not thoroughly tested. The reason been that they performs basic function and rarely failed.
