@@ -8,13 +8,12 @@ import static org.junit.Assert.*;
  */
 public class BookTest {
   Book book1 = new Book("God are not to blame","Chinua Achebe", 5, "ISBN:08798-48");
-  Book book2 = new Book();
 
   @Test
   public void testSetBookTitle() throws Exception {
-    assertEquals(book2.getBookTitle(),null);
-    book2.setBookTitle("Die another day");
-    assertEquals(book2.getBookTitle(),"Die another day");
+    assertEquals(book1.getBookTitle(),"God are not to blame");
+    book1.setBookTitle("Die another day");
+    assertEquals(book1.getBookTitle(),"Die another day");
   }
 
   @Test
@@ -25,17 +24,23 @@ public class BookTest {
 
   @Test
   public void testSetBookAuthor() throws Exception {
-    book2.setBookAuthor("Wole Soyinka");
-    assertEquals(book2.getBookAuthor(),"Wole Soyinka");
+    book1.setBookAuthor("Wole Soyinka");
+    assertEquals(book1.getBookAuthor(),"Wole Soyinka");
   }
 
 
   @Test
   public void testDecrementBook() throws Exception {
     book1.decrementBook();
-    book2.decrementBook();
     assertEquals(book1.getNumberOfCopies(), 4);
-    assertEquals(book2.getNumberOfCopies(), 0);
+  }
+
+  // Test decrementBook() when the book is not currently available;
+  @Test
+  public void testDecrementBook2() throws Exception {
+    book1.setNumberOfCopies(0);
+    book1.decrementBook();
+    assertEquals(book1.getNumberOfCopies(), 0);
   }
 
   @Test

@@ -1,13 +1,14 @@
 package checkpoint.andela.main;
 
+import checkpoint.andela.readersClub.ReadersClubManagement;
+
 import java.util.Date;
 
 /**
  * Created by Semiu on 26/11/2015.
  * This Member class is an abstract class.
- * It servws as the parent class to the Staff and Student classes.
- * It contains two abstract methods which must be implemented
- * by any class inheriting it.
+ * It serves as the parent class to the Staff and Student classes.
+ * It contains two abstract methods which must be implemented by it's subclass.
  *
  */
 public abstract class Member {
@@ -35,7 +36,7 @@ public abstract class Member {
     setDateOfBirth(dateOfBirth);
     setEmail(email);
     setPhoneNumber(phoneNumber);
-    setRegistrationDate();
+    registrationDate = setRegistrationDate();
   }
 
   // Setter and Getter for name
@@ -87,7 +88,7 @@ public abstract class Member {
   // These kind of setters are refer to as overloaded method
   public Date setRegistrationDate(){
     this.registrationDate = new Date();
-    return registrationDate;
+    return this.registrationDate;
   }
 
   public Date setRegistrationDate(Date registrationDate){
@@ -105,8 +106,12 @@ public abstract class Member {
   }
 
   // Borrow Book
-  public abstract boolean borrowBook();
+  public void borrowBook(Book book) {
+    ReadersClubManagement.lendingBook(this, book);
+  }
 
   //Return Book
-  public abstract boolean returnBook();
+  public void returnBook(Book book) {
+    ReadersClubManagement.retrieveBook(this, book);
+  }
 }
