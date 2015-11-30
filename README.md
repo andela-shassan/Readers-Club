@@ -40,7 +40,7 @@ This is basically the masternclass that controls the whole activities of the clu
 * Manages the list of members.
 * Add books to the book list.
 * Manages the list of books.
-* Lending books to members.
+* Lending books to members.  
 Whenever more than one member request for a particular book at the same time,  
 this class place the members on a queue based on their rank and status.  
 It make use of ComparatorInterface class to sort the queue accordingly.
