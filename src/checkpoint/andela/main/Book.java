@@ -15,7 +15,7 @@ public class Book {
   public Book(){
     bookTitle = null;
     bookAuthor = null;
-    numberOfCopies = 0;
+    numberOfCopies = 5;
     isbnNumber = null;
   }
 

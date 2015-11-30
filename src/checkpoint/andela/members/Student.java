@@ -4,6 +4,11 @@ import checkpoint.andela.main.Member;
 
 /**
  * Created by Semiu on 26/11/2015.
+ * This class inherit Member class
+ * It also declare two additional properties:
+ * Student-number and student's-class.
+ * Members of this class are given lower precedence compare to
+ * members of Staff class
  */
 public class Student extends Member {
   private int studentNumber;
@@ -37,7 +42,7 @@ public class Student extends Member {
     this.studentClass = studentClass;
   }
 
-  public int gerStaffNetpay() {
+  public int getStudentClass() {
     return studentClass;
   }
 }
