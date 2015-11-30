@@ -75,6 +75,7 @@ public class ReadersClubManagement {
   }
 
   // To determine who get book from the queue
+  // I will still try to work more on this method.
   public static void whoGetBook(Book book) {
     int copies = book.getNumberOfCopies();
     Iterator<Member> iterate = bookBorrowingQueue.iterator();
