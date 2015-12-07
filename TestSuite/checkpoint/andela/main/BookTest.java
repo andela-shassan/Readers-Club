@@ -1,51 +1,64 @@
 package checkpoint.andela.main;
 
 import org.junit.Test;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertEquals;
 
 /**
- * Created by Semiu on 26/11/2015.
+ * Created by Semiu on 04/12/2015.
  */
 public class BookTest {
-  Book book1 = new Book("God are not to blame","Chinua Achebe", 5, "ISBN:08798-48");
+  Book book1 = new Book("God are not to blame","Chinua Achebe", 2, "ISBN:08798-48");
+  Book book2 = new Book("Success Is Mine","Opeyemi Idowu", 1, "ISBN:123-48M");
+
 
   @Test
-  public void testSetBookTitle() throws Exception {
-    assertEquals(book1.getBookTitle(),"God are not to blame");
-    book1.setBookTitle("Die another day");
-    assertEquals(book1.getBookTitle(),"Die another day");
+  public void testSetNumberOfCopies() throws Exception {
+    book2.setNumberOfCopies(10);
+    assertEquals(book2.getNumberOfCopies() == 10, true);
   }
 
-  @Test
-  public void testGetBookTitle() throws Exception {
-    assertEquals(book1.getBookTitle(),"God are not to blame");
-    assertEquals(book1.getNumberOfCopies(), 5);
-  }
-
-  @Test
-  public void testSetBookAuthor() throws Exception {
-    book1.setBookAuthor("Wole Soyinka");
-    assertEquals(book1.getBookAuthor(),"Wole Soyinka");
-  }
-
-
+  // The number of copies of the book should decrease by one(1)
+  // with every call of this method.
   @Test
   public void testDecrementBook() throws Exception {
+    assertEquals(book1.getNumberOfCopies(),2);
     book1.decrementBook();
-    assertEquals(book1.getNumberOfCopies(), 4);
+    assertEquals(book1.getNumberOfCopies(),1);
+    book1.decrementBook();
+    assertEquals(book1.getNumberOfCopies(),0);
   }
 
-  // Test decrementBook() when the book is not currently available;
+  // The number of copies of the book should not decrease
+  // with call of this method if the number is not greater than zero.
   @Test
   public void testDecrementBook2() throws Exception {
+    assertEquals(book1.getNumberOfCopies(),2);
     book1.setNumberOfCopies(0);
+    assertEquals(book1.getNumberOfCopies(),0);
     book1.decrementBook();
-    assertEquals(book1.getNumberOfCopies(), 0);
+    assertEquals(book1.getNumberOfCopies(),0);
+    book1.decrementBook();
+    book1.decrementBook();
+    assertEquals(book1.getNumberOfCopies(),0);
+  }
+
+  // The number of copies of the book should increase by one(1)
+  // with every call of this method.
+  @Test
+  public void testIncrementBook() throws Exception {
+    assertEquals(book1.getNumberOfCopies(),2);
+    book1.incrementBook();
+    assertEquals(book1.getNumberOfCopies(),3);
+    book1.incrementBook();
+    book1.incrementBook();
+    assertEquals(book1.getNumberOfCopies(),5);
   }
 
   @Test
-  public void testIncrementBook() throws Exception {
-    book1.incrementBook();
-    assertEquals(book1.getNumberOfCopies(), 6);
+  public void testIncrementBookByNoOfCopies() throws Exception {
+    assertEquals(book1.getNumberOfCopies(),2);
+    book1.incrementBookByNoOfCopies(5);
+    assertEquals(book1.getNumberOfCopies(),7);
   }
 }

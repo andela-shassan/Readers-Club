@@ -1,16 +1,13 @@
-package checkpoint.andela.readersClub;
+package checkpoint.andela.readersclub;
 
 import checkpoint.andela.members.*;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import static junit.framework.Assert.assertEquals;
 
 /**
- * Created by Semiu on 26/11/2015.
- * This test the implementation of the comparator interface.
- * It ensure that the interface returns what it suppose to return.
+ * Created by Semiu on 05/12/2015.
  */
-
 public class ComparatorInterfaceTest {
   Staff staff0 = new Staff();
   Staff staff1 = new Staff();
@@ -61,5 +58,4 @@ public class ComparatorInterfaceTest {
     assertEquals(myComparator.compare(staff0, staff1), 0);
     assertEquals(myComparator.compare(student2, student3), 0);
   }
-
 }

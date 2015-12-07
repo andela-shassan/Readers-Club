@@ -1,7 +1,4 @@
 package checkpoint.andela.main;
-
-import checkpoint.andela.readersClub.ReadersClubManagement;
-
 import java.util.Date;
 
 /**
@@ -11,6 +8,7 @@ import java.util.Date;
  * It contains two abstract methods which must be implemented by it's subclass.
  *
  */
+
 public abstract class Member {
   private String fullName;
   private char sex;
@@ -92,7 +90,7 @@ public abstract class Member {
   }
 
   public Date setRegistrationDate(Date registrationDate){
-      this.registrationDate = registrationDate;
+    this.registrationDate = registrationDate;
     return registrationDate;
   }
 
@@ -103,15 +101,5 @@ public abstract class Member {
   // Getter for Current date
   public Date getCurrentDate() {
     return new Date();
-  }
-
-  // Borrow Book
-  public void borrowBook(Book book) {
-    ReadersClubManagement.lendingBook(this, book);
-  }
-
-  //Return Book
-  public void returnBook(Book book) {
-    ReadersClubManagement.retrieveBook(this, book);
   }
 }
