@@ -18,10 +18,10 @@ This class is also a subclass of the member class. It  inherited all the propert
 ##### ComparatorInterface Class  
 This class implements the comparator used by the QueueManager class to arrange the queue of the members borrowing book. It compares any member trying to borrow a particular book with those that are already on the queue for that book and place them on the queue based on their status and rank. 
 
-#### QueueManager Class
+##### QueueManager Class
 Whenever two or more member request for a particular book at the same time, this class places the members on a queue based on their rank and status. It make use of ComparatorInterface class to sort the queue accordingly.
 
-#### ClubManagement Class
+##### ClubManagement Class
 This is basically the masterclass that controls the whole activities of the application.
 * It creates the club.
 * It registers member to the club.
