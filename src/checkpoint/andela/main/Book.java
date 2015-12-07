@@ -15,7 +15,7 @@ public class Book {
   public Book(){
     bookTitle = null;
     bookAuthor = null;
-    numberOfCopies = 5;
+    numberOfCopies = 0;
     isbnNumber = null;
   }
 
@@ -73,5 +73,9 @@ public class Book {
   // Increase number of book when then return book.
   public void incrementBook(){
     numberOfCopies++;
+  }
+
+  public void incrementBookByNoOfCopies(int copies){
+    this.setNumberOfCopies(copies + this.getNumberOfCopies());
   }
 }

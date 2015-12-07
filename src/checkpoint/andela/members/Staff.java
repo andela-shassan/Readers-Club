@@ -1,6 +1,6 @@
 package checkpoint.andela.members;
 
-import checkpoint.andela.main.*;
+import checkpoint.andela.main.Member;
 
 /**
  * Created by Semiu on 26/11/2015.

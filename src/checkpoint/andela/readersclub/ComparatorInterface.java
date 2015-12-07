@@ -1,4 +1,4 @@
-package checkpoint.andela.readersClub;
+package checkpoint.andela.readersclub;
 
 import checkpoint.andela.main.Member;
 import checkpoint.andela.members.*;

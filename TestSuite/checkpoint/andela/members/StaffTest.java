@@ -1,35 +1,26 @@
 package checkpoint.andela.members;
 
-import checkpoint.andela.main.Book;
-import checkpoint.andela.readersClub.ReadersClubManagement;
+import checkpoint.andela.main.Member;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 /**
- * Created by Semiu on 26/11/2015.
+ * Created by Semiu on 05/12/2015.
  */
 public class StaffTest {
-  Staff staff1 = new Staff();
-  Book book1 = new Book();
+  Staff staff = new Staff();
 
-
+  // Every staff should be an instance of Member Class
   @Test
-  public void testBorrowBook() throws Exception {
-    ReadersClubManagement.books.add(book1);
-    book1.setNumberOfCopies(2);
-    staff1.borrowBook(book1);
-    assertEquals(book1.getNumberOfCopies(), 1);
-    ReadersClubManagement.bookBorrowingQueue.clear();
-    ReadersClubManagement.books.clear();
+  public void testStaffInstance() {
+    assertTrue(staff instanceof Member);
   }
 
+  // Every staff should be an instance of Staff Class
   @Test
-  public void testReturnBook() throws Exception {
-    book1.setNumberOfCopies(1);
-    staff1.returnBook(book1);
-    assertEquals(book1.getNumberOfCopies(), 2);
-    ReadersClubManagement.bookReturningQueue.clear();
-    ReadersClubManagement.books.clear();
+  public void testStaffInstance2() {
+    assertTrue(staff instanceof Staff);
   }
+
 }
