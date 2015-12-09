@@ -15,13 +15,6 @@ import static org.junit.Assert.assertTrue;
 public class ClubManagementTest {
   ClubManagement readersClub = new ClubManagement();
   Staff staff1 = new Staff("Hassan Semiu", 'M', "10/06/1986", "hassan.ayomon@andela.com", "08036294879", 1234, 71.550);
-  {
-    try {
-      Thread.sleep(500);
-    }catch(InterruptedException e) {
-      Thread.currentThread().interrupt();
-    }
-  }
 
   Staff staff2 = new Staff("Opeyemi Hassan",'M',"10th June, 1986", "semiu_hassan@ymail.com", "08056706725", 345, 45.663);
   Staff staff3 = new Staff("Rahmon Saheed",'M',"10th June, 1986", "semiu_hassan@ymail.com", "08056706725", 345, 45.663);
@@ -45,8 +38,8 @@ public class ClubManagementTest {
   }
   Student student3 = new Student("Tosin", 'M', "10th May, 2010", "andela.guru@andela.com", "08085435202",2324, 01);
 
-  Book book11 = new Book("book1","Chinua Achebe", 2, "ISBN:08798-48");
-  Book book22 = new Book("book2","Opeyemi Idowu", 1, "ISBN:123-48M");
+  Book book11 = new Book("New Dawn","Chinua Achebe", 2, "ISBN:08798-48");
+  Book book22 = new Book("Die Another Day","Opeyemi Idowu", 1, "ISBN:123-48M");
 
 
   @Test
@@ -156,30 +149,30 @@ public class ClubManagementTest {
   // if the book is available in the library
   @Test
   public void testRequestToBorrowBook() throws Exception {
-    assertEquals(readersClub.getQueue(book22.getBookTitle()).size(), 0);
+    assertEquals(readersClub.borrowBookQueue.size(),0);
     readersClub.registerMember(staff1);
-    readersClub.library.add(book22);
+    readersClub.addBook(book22);
     readersClub.requestToBorrowBook(staff1, book22);
-    assertEquals(readersClub.getQueue(book22.getBookTitle()).size(), 1);
+    assertEquals(readersClub.borrowBookQueue.size(),1);
   }
 
   // When the person requesting to borrow book, is not a registered member,
   // they should not be place on the queue
   @Test
   public void testRequestToBorrowBook2() throws Exception {
-    assertEquals(readersClub.getQueue(book22.getBookTitle()).size(), 0);
+    assertEquals(readersClub.borrowBookQueue.size(),0);
     readersClub.library.add(book22);
     readersClub.requestToBorrowBook(staff1, book22);
-    assertEquals(readersClub.getQueue(book22.getBookTitle()).size(), 0);
+    assertEquals(readersClub.borrowBookQueue.size(),0);
   }
 
   // When member request to borrow book, they should not be place on the queue
   // if the book is available in the library
   @Test
   public void testRequestToBorrowBook3() throws Exception {
-    assertEquals(readersClub.getQueue(book22.getBookTitle()).size(), 0);
+    assertEquals(readersClub.borrowBookQueue.size(),0);
     readersClub.requestToBorrowBook(staff1, book22);
-    assertEquals(readersClub.getQueue(book22.getBookTitle()).size(), 0);
+    assertEquals(readersClub.borrowBookQueue.size(),0);
   }
 
   // This should return true if the club have the book in their library collection
@@ -195,9 +188,9 @@ public class ClubManagementTest {
 
   @Test
   public void testAddBorrowerToQueue() throws Exception {
-    assertEquals(readersClub.getQueue(book11.getBookTitle()).size(), 0);
+    assertEquals(readersClub.borrowBookQueue.size(),0);
     readersClub.addBorrowerToQueue(staff1, book11);
-    assertEquals(readersClub.getQueue(book11.getBookTitle()).size(), 1);
+    assertEquals(readersClub.borrowBookQueue.size(),1);
   }
 
   @Test
@@ -219,25 +212,44 @@ public class ClubManagementTest {
     readersClub.requestToBorrowBook(student1, book22);
     readersClub.requestToBorrowBook(staff3, book22);
     readersClub.requestToBorrowBook(student2, book22);
-    assertEquals(readersClub.queues.book2Queue.size(), 5);
+    BookQueue book22Queue = readersClub.getQueue(book22.getBookTitle());
+    int size = book22Queue.getQueueSize();
+    assertEquals(size, 5);
 
     readersClub.requestToBorrowBook(staff2, book11);
     readersClub.requestToBorrowBook(staff1, book11);
     readersClub.requestToBorrowBook(student1, book11);
     readersClub.requestToBorrowBook(student2, book11);
-    assertEquals(readersClub.queues.book1Queue.size(), 4);
+    BookQueue book11Queue = readersClub.getQueue(book11.getBookTitle());
+    int size1 = book11Queue.getQueueSize();
+    assertEquals(size1, 4);
 
     readersClub.lendBook(book22);
     readersClub.lendBook(book11);
 
-    assertEquals(readersClub.queues.book2Queue.size(), 3);
-    assertEquals(readersClub.queues.book1Queue.size(), 2);
+    BookQueue newBook22Queue = readersClub.getQueue(book22.getBookTitle());
+    int newSize = newBook22Queue.getQueueSize();
+    assertEquals(newSize, 3);
+
+    BookQueue newBook11Queue = readersClub.getQueue(book11.getBookTitle());
+    int newSize1 = newBook11Queue.getQueueSize();
+    assertEquals(newSize1, 2);
   }
 
   @Test
   public void testGetQueue() throws Exception {
-    assertEquals(readersClub.getQueue(book11.getBookTitle()),readersClub.queues.book1Queue);
-    assertEquals(readersClub.getQueue(book22.getBookTitle()),readersClub.queues.book2Queue);
+    readersClub.registerMember(staff1);
+    readersClub.registerMember(staff2);
+
+    readersClub.library.add(book22);
+    readersClub.library.add(book11);
+
+    readersClub.requestToBorrowBook(staff2, book11);
+    readersClub.requestToBorrowBook(staff1, book22);
+    BookQueue book11Queue = readersClub.getQueue(book11.getBookTitle());
+    BookQueue book22Queue = readersClub.getQueue(book22.getBookTitle());
+    assertEquals(book11Queue, readersClub.borrowBookQueue.get(book11.getBookTitle()));
+    assertTrue(book22Queue != book11Queue);
   }
 
   @Test
@@ -286,23 +298,29 @@ public class ClubManagementTest {
 
     book22.setNumberOfCopies(3);
     readersClub.library.add(book22);
+    readersClub.library.add(book11);
     assertEquals(book22.getNumberOfCopies(), 3);
 
-    readersClub.requestToBorrowBook(staff2, book22);
+    readersClub.requestToBorrowBook(staff2, book11);
     readersClub.requestToBorrowBook(staff1, book22);
+    readersClub.requestToBorrowBook(staff2, book22);
     readersClub.requestToBorrowBook(student1, book22);
     readersClub.requestToBorrowBook(student3, book22);
     readersClub.requestToBorrowBook(student2, book22);
 
-    assertEquals(readersClub.queues.book2Queue.size(), 5);
+    BookQueue book22Queue = readersClub.getQueue(book22.getBookTitle());
+    int size = book22Queue.getQueueSize();
+    assertEquals(size, 5);
 
     System.out.println(readersClub.whoGetBook(book22));
     System.out.println(readersClub.whoGetBook(book22));
     System.out.println(readersClub.whoGetBook(book22));
     System.out.println(readersClub.whoGetBook(book22));
-    System.out.println(readersClub.whoGetBook(book22));
+    System.out.println(readersClub.whoGetBook(book11));
     readersClub.lendBook(book22);
 
-    assertEquals(readersClub.queues.book2Queue.size(), 2);
+    BookQueue newBook22Queue = readersClub.getQueue(book22.getBookTitle());
+    int newSize = newBook22Queue.getQueueSize();
+    assertEquals(newSize, 2);
   }
 }

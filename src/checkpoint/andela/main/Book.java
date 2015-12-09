@@ -71,8 +71,8 @@ public class Book {
   }
 
   // Increase number of book when then return book.
-  public void incrementBook(){
-    numberOfCopies++;
+  public int incrementBook(){
+    return numberOfCopies++;
   }
 
   public void incrementBookByNoOfCopies(int copies){
