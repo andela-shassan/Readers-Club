@@ -63,7 +63,7 @@ public class ClubManagement {
   public void requestToBorrowBook(Member member, Book book) {
     if(isBookAvailable(book) && isMemberRegistered(member)) {
       addBorrowerToQueue(member, book);
-      lendBook(book);
+      //lendBook(book);
     }
   }
 
