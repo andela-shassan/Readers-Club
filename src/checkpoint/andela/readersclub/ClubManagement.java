@@ -65,7 +65,7 @@ public class ClubManagement {
   public void requestToBorrowBook(Member member, Book book) {
     if(isBookAvailable(book) && isMemberRegistered(member)) {
       addBorrowerToQueue(member, book);
-      //lendBook(book);
+      lendBook(book);
     }
   }
 
@@ -105,12 +105,9 @@ public class ClubManagement {
   public void returnBook(Member member, Book book) {
     addToReturnQueue(member, book);
     BookQueue queue = getReturnQueue(book.getBookTitle());
-    PriorityQueue<Member> theQueue = queue.getQueue();
-    while(!theQueue.isEmpty()) {
-      System.out.println("method called");
-      System.out.println(theQueue.size());
+    while(!queue.isEmpty()) {
       book.incrementBook();
-      theQueue.poll();
+      queue.pollQueue();
     }
   }
 
