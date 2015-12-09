@@ -253,41 +253,6 @@ public class ClubManagementTest {
   }
 
   @Test
-  public void testReturnBook() throws Exception {
-    readersClub.registerMember(staff1);
-    readersClub.registerMember(staff2);
-    readersClub.registerMember(staff3);
-    readersClub.registerMember(student2);
-    readersClub.registerMember(student1);
-
-    book22.setNumberOfCopies(5);
-    book11.setNumberOfCopies(5);
-
-    readersClub.library.add(book22);
-    readersClub.library.add(book11);
-
-    readersClub.requestToBorrowBook(staff2, book22);
-    readersClub.requestToBorrowBook(staff1, book22);
-    readersClub.requestToBorrowBook(student1, book11);
-    readersClub.requestToBorrowBook(staff3, book11);
-    readersClub.requestToBorrowBook(student2, book22);
-
-    readersClub.lendBook(book22);
-    readersClub.lendBook(book11);
-
-    assertEquals(book11.getNumberOfCopies(), 3);
-    assertEquals(book22.getNumberOfCopies(), 2);
-    readersClub.returnBook(staff3, book11);
-    readersClub.returnBook(student1, book11);
-    readersClub.returnBook(staff1, book22);
-    readersClub.returnBook(staff2, book22);
-    readersClub.returnBook(student2, book22);
-
-    assertEquals(book11.getNumberOfCopies(), 5);
-    assertEquals(book22.getNumberOfCopies(), 5);
-  }
-
-  @Test
   public void testWhoGetBook() throws Exception {
 
     readersClub.registerMember(staff1);

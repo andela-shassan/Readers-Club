@@ -17,7 +17,6 @@ public class ClubManagement {
   List<Staff> staffs;
   List<Student> students;
   Hashtable<String, BookQueue>  borrowBookQueue;
-  Hashtable<String, BookQueue>  returnBookQueue;
 
   // Constructors
   public ClubManagement() {
@@ -25,7 +24,6 @@ public class ClubManagement {
     staffs = new ArrayList<>();
     students = new ArrayList<>();
     borrowBookQueue = new Hashtable<>();
-    returnBookQueue = new Hashtable<>();
   }
 
   // Register member
@@ -65,7 +63,7 @@ public class ClubManagement {
   public void requestToBorrowBook(Member member, Book book) {
     if(isBookAvailable(book) && isMemberRegistered(member)) {
       addBorrowerToQueue(member, book);
-      //lendBook(book);
+      lendBook(book);
     }
   }
 
@@ -101,36 +99,6 @@ public class ClubManagement {
     return borrowBookQueue.get(bookTitle);
   }
 
-  // The return book  methods
-  public void returnBook(Member member, Book book) {
-    addToReturnQueue(member, book);
-    BookQueue queue = getReturnQueue(book.getBookTitle());
-    PriorityQueue<Member> theQueue = queue.getQueue();
-    while(!theQueue.isEmpty()) {
-      System.out.println("method called");
-      System.out.println(theQueue.size());
-      book.incrementBook();
-      theQueue.poll();
-    }
-  }
-
-  // Add member to  return queue
-  public void addToReturnQueue(Member member, Book book){
-    String bookTitle = book.getBookTitle();
-    if (returnBookQueue.containsKey(bookTitle)){
-      BookQueue queue = getQueue(bookTitle);
-      queue.addMemberToQueue(member);
-    }else {
-      BookQueue queue = new BookQueue();
-      queue.addMemberToQueue(member);
-      returnBookQueue.put(bookTitle, queue);
-    }
-  }
-
-  // Get the require returning queue
-  public BookQueue getReturnQueue(String bookTitle) {
-    return returnBookQueue.get(bookTitle);
-  }
 
   // To determine who get book from the queue
   public String whoGetBook(Book book) {
