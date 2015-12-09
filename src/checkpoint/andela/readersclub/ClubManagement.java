@@ -2,8 +2,6 @@ package checkpoint.andela.readersclub;
 
 import checkpoint.andela.main.*;
 import checkpoint.andela.members.*;
-
-
 import java.util.*;
 
 /**
@@ -13,14 +11,22 @@ import java.util.*;
  * It manages the list of books available.
  * It is also in charge of lending and retrieving books to and from members.
  */
+
 public class ClubManagement {
-  List<Book> library = new ArrayList<>();
-  List<Staff> staffs = new ArrayList<>();
-  List<Student> students = new ArrayList<>();
-  QueueManager queues = new QueueManager();
+  List<Book> library;
+  List<Staff> staffs;
+  List<Student> students;
+  Hashtable<String, BookQueue>  borrowBookQueue;
+  Hashtable<String, BookQueue>  returnBookQueue;
 
   // Constructors
-  public ClubManagement() {}
+  public ClubManagement() {
+    library = new ArrayList<>();
+    staffs = new ArrayList<>();
+    students = new ArrayList<>();
+    borrowBookQueue = new Hashtable<>();
+    returnBookQueue = new Hashtable<>();
+  }
 
   // Register member
   public void registerMember(Member member) {
@@ -59,7 +65,7 @@ public class ClubManagement {
   public void requestToBorrowBook(Member member, Book book) {
     if(isBookAvailable(book) && isMemberRegistered(member)) {
       addBorrowerToQueue(member, book);
-      lendBook(book);
+      //lendBook(book);
     }
   }
 
@@ -68,99 +74,73 @@ public class ClubManagement {
     return  library.contains(book);
   }
 
-
   // Add borrower to queue
   public void addBorrowerToQueue(Member member, Book book){
-    switch (book.getBookTitle()) {
-      case "book1":
-        this.queues.book1Queue.add(member);
-        break;
-      case "book2":
-        this.queues.book2Queue.add(member);
-        break;
-      case "book3":
-        this.queues.book3Queue.add(member);
-        break;
-      default:
-        // create a queue named generalQueue and add member to it.
-        this.queues.createNewQueue().add(member);
-        break;
+    String bookTitle = book.getBookTitle();
+    if (borrowBookQueue.containsKey(bookTitle)){
+      BookQueue queue = getQueue(bookTitle);
+      queue.addMemberToQueue(member);
+    }else {
+      BookQueue queue = new BookQueue();
+      queue.addMemberToQueue(member);
+      borrowBookQueue.put(bookTitle, queue);
     }
   }
 
   // Lend book to members
   public void lendBook(Book book) {
-    PriorityQueue<Member> queue = getQueue(book.getBookTitle());
+    BookQueue queue = getQueue(book.getBookTitle());
     while(!queue.isEmpty() && book.getNumberOfCopies() > 0) {
       book.decrementBook();
-      queue.poll();
+      queue.pollQueue();
     }
   }
 
   // Get the require borrowing queue
-  public PriorityQueue<Member> getQueue(String queueName) {
-    switch(queueName) {
-      case "book1":
-        return queues.book1Queue;
-      case "book2":
-        return queues.book2Queue;
-      case "book3":
-        return queues.book3Queue;
-      default:
-        return queues.generalQueue;
-    }
+  public BookQueue getQueue(String bookTitle) {
+    return borrowBookQueue.get(bookTitle);
   }
 
   // The return book  methods
   public void returnBook(Member member, Book book) {
     addToReturnQueue(member, book);
-    PriorityQueue<Member> queue = getReturnQueue(book.getBookTitle());
-    while(!queue.isEmpty()) {
+    BookQueue queue = getReturnQueue(book.getBookTitle());
+    PriorityQueue<Member> theQueue = queue.getQueue();
+    while(!theQueue.isEmpty()) {
+      System.out.println("method called");
+      System.out.println(theQueue.size());
       book.incrementBook();
-      queue.poll();
+      theQueue.poll();
     }
   }
 
   // Add member to  return queue
   public void addToReturnQueue(Member member, Book book){
-    switch (book.getBookTitle()) {
-      case "book1":
-        this.queues.book1ReturnQueue.add(member);
-        break;
-      case "book2":
-        this.queues.book2ReturnQueue.add(member);
-        break;
-      case "book3":
-        this.queues.book3ReturnQueue.add(member);
-        break;
-      default:
-        this.queues.createNewQueue().add(member);
-        break;
+    String bookTitle = book.getBookTitle();
+    if (returnBookQueue.containsKey(bookTitle)){
+      BookQueue queue = getQueue(bookTitle);
+      queue.addMemberToQueue(member);
+    }else {
+      BookQueue queue = new BookQueue();
+      queue.addMemberToQueue(member);
+      returnBookQueue.put(bookTitle, queue);
     }
   }
 
   // Get the require returning queue
-  public PriorityQueue<Member> getReturnQueue(String queueName) {
-    switch(queueName) {
-      case "book1":
-        return queues.book1ReturnQueue;
-      case "book2":
-        return queues.book2ReturnQueue;
-      case "book3":
-        return queues.book2ReturnQueue;
-      default:
-        return queues.generalQueue;
-    }
+  public BookQueue getReturnQueue(String bookTitle) {
+    return returnBookQueue.get(bookTitle);
   }
 
   // To determine who get book from the queue
   public String whoGetBook(Book book) {
-    PriorityQueue<Member> queue = getQueue(book.getBookTitle());
+    BookQueue queue = getQueue(book.getBookTitle());
     while(book.getNumberOfCopies() > 0 && !(queue.isEmpty())) {
-      Member member = queue.poll();
+      Member member = queue.pollQueue();
       book.decrementBook();
       return member.getName();
     }
     return "";
   }
+
 }
